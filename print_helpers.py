@@ -13,8 +13,10 @@ def print_array_float(arr):
     for line in arr:
         print('[', end='')
         for val in line:
-            if val >= 9999999:
+            if val == 9999999:
                 print("NA, ", end="")
+            elif val > 9999999:
+                print(u"\u221E" + ", ", end="")
             else:
                 print("{0:.2f}".format(val) + ", ", end="")
         print(']')
