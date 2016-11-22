@@ -1,4 +1,3 @@
-
 def f_w2(graph):
     n = len(graph)
     next = [[i+1 for i in range(n)] for x in range(n)]

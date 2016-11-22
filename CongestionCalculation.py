@@ -9,7 +9,6 @@ def get_actual_edge_delay(C, L, E):
                 G[i][j] = 9999999
     return G
 
-
 def get_actual_path_delay(graph, paths):
     n = len(graph)
     actual_delay = [[0 for x in range(n)] for y in range(n)]

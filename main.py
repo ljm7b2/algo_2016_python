@@ -2,13 +2,10 @@ from InputStructures import edge_matrix
 from InputStructures import capacity_matrix_in
 from InputStructures import flow_matrix_in
 from InputStructures import capacity_matrix_in2
-
 from print_helpers import print_array
 from print_helpers import print_array_float
-
 from CongestionCalculation import get_actual_edge_delay
 from CongestionCalculation import get_actual_path_delay
-
 from floyd_warshall import f_w2
 from floyd_warshall import get_actual_paths
 from floyd_warshall import get_hop_count
@@ -61,9 +58,6 @@ def main():
     print("Actual path delay 2")
     actual_path_delay_2 = get_actual_path_delay(actual_edge_delay_2, all_pairs_actual_path)
     print_array_float(actual_path_delay_2)
-
-
-
 
 # run main function :)
 main()
