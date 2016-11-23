@@ -1,15 +1,17 @@
+import copy
 def f_w2(graph):
-    n = len(graph)
+    temp_graph = copy.deepcopy(graph)
+    n = len(temp_graph)
     next = [[i+1 for i in range(n)] for x in range(n)]
     for k in range(n):
         for i in range(n):
             for j in range(n):
-                if graph[i][k] + graph[k][j] < graph[i][j]:
-                    graph[i][j] = graph[i][k] + graph[k][j]
+                if temp_graph[i][k] + temp_graph[k][j] < temp_graph[i][j]:
+                    temp_graph[i][j] = temp_graph[i][k] + temp_graph[k][j]
                     next[i][j] = next[i][k]
-    a_paths = get_actual_paths(graph, next)
+    a_paths = get_actual_paths(temp_graph, next)
     get_hop_count(a_paths)
-    return graph, next
+    return temp_graph, next
 
 def get_actual_paths(dist, next):
     actual_path_matrix = []

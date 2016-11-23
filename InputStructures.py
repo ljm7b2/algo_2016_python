@@ -21,6 +21,17 @@ def flow_matrix_in():
     ]
     return matrix
 
+def flow_matrix_in2():
+    matrix = [
+        [ 0,  1, 1, 1,  1, 1],
+        [1,  0, 1, 1, 1, 1],
+        [1, 1,  0, 1, 1, 1],
+        [1,  1, 1,  0, 1, 1],
+        [1,  1, 1, 1,  0, 1],
+        [1, 1, 1,  1,  1,  0]
+    ]
+    return matrix
+
 def capacity_matrix_in():
     NA = 9999999
     matrix =[
