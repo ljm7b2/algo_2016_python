@@ -1,4 +1,5 @@
 from math import fabs
+from print_helpers import print_array_float
 class mod_flow_matrix():
     def __init__(self, hop_matrix, flow_matrix):
         self.hop_matrix = hop_matrix
@@ -43,9 +44,6 @@ class mod_flow_matrix():
         return self.temp_flow
 
 
-
-        pass
-
     def get_unique_flow_values(self):
         temp = set()
         for i in range(len(self.flow_matrix)):
@@ -54,8 +52,46 @@ class mod_flow_matrix():
                     temp.add(self.flow_matrix[i][j])
         return sorted(list(temp))
 
+def necessary_first(F, L, C, EP):
+    n = len(F)
+    R = [[0 for x in range(n)] for y in range(n)]
+    L = [[0 for x in range(n)] for y in range(n)]
 
+    for i in range(n):
+        for j in range(n):
+            if(F[i][j] <= C[i][j] and C[i][j] < 9999999):
+                L[i][j] += F[i][j]
+            elif C[i][j] >= 9999999:
+                #L[i][j] = C[i][j]
+                R[i][j] = F[i][j]
+            else:
+                L[i][j] = C[i][j]
+                R[i][j] = F[i][j] - C[i][j]
 
+    #print("first L ")
+    #print_array_float(L)
+
+    for i in range(n):
+        for j in range(n):
+            if R[i][j] > 0:
+                path = EP[i][j]
+                count = 0
+                for k in range(len(path) - 1):
+
+                    if (C[path[k] - 1][path[k + 1] - 1] < L[path[k] - 1][path[k + 1] - 1] + R[i][j]):
+                        count += 1
+
+                if count == 0:
+                    for k in range(len(path) - 1):
+                        if R[i][j] < C[path[k] - 1][path[k + 1] - 1] - L[path[k] - 1][path[k + 1] - 1]:
+                            L[path[k] - 1][path[k + 1] - 1] += R[i][j]
+                        #R[i][j] = 0
+                        else:
+                            print("here - must find new path says ben")
+
+    #print("2nd R")
+    #print_array_float(R)
+    return L
 
 
 def compare_matrix(matrix_a, matrix_b):
@@ -63,8 +99,18 @@ def compare_matrix(matrix_a, matrix_b):
     for i in range(len(matrix_a)):
         for j in range(len(matrix_a)):
             if matrix_a[i][j] != 0:
-                temp[i][j] = (fabs(matrix_a[i][j] - matrix_b[i][j]) / matrix_a[i][j]) * 100
+                temp[i][j] = ((matrix_a[i][j] - matrix_b[i][j]) / matrix_a[i][j]) * 100
     return temp
+
+
+def get_actual_adjusted_delay(ma, mb):
+    t = [[0 for i in range(len(ma))] for x in range(len(ma))]
+
+    for i in range(len(ma)):
+        for j in range(len(ma)):
+            t[i][j] = ma[i][j] * mb[i][j]
+
+    return t
 
 
 

@@ -10,7 +10,7 @@ from floyd_warshall import f_w2
 from floyd_warshall import get_actual_paths
 from floyd_warshall import get_hop_count
 from floyd_warshall import get_load_matrix
-from modify_flow_matrix import mod_flow_matrix
+from modify_flow_matrix import necessary_first
 
 def main():
 
@@ -34,6 +34,9 @@ def main():
 
     print("Load Matrix")
     load = get_load_matrix(all_pairs_actual_path, flow_matrix_in())
+    print_array(load)
+
+    load = necessary_first(flow_matrix_in(), load, capacity_matrix_in(), all_pairs_actual_path)
     print_array(load)
 
     print("Capacity Matrix")
