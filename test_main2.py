@@ -13,12 +13,14 @@ from floyd_warshall import get_load_matrix
 from modify_flow_matrix import compare_matrix
 from modify_flow_matrix import necessary_first
 from modify_flow_matrix import get_actual_adjusted_delay
-
+from import_structures import read_file
 import copy
 
 def main():
 
-    em = copy.deepcopy(edge_matrix())
+    #em = copy.deepcopy(edge_matrix())
+
+    em, F, C = read_file("N10bs.txt")
 
     for i in range(1):
 
@@ -29,14 +31,14 @@ def main():
 
         hop_count = get_hop_count(all_pairs_actual_path)
 
-        load = get_load_matrix(all_pairs_actual_path, flow_matrix_in())
+        load = get_load_matrix(all_pairs_actual_path, F)
 
-        load2 = necessary_first(flow_matrix_in(), load, capacity_matrix_in2(), all_pairs_actual_path)
+        load2 = necessary_first(F, load, C, all_pairs_actual_path)
 
         #print("Load")
         #print_array_float(load2)
 
-        actual_edge_delay = get_actual_edge_delay(capacity_matrix_in2(), load2, em)
+        actual_edge_delay = get_actual_edge_delay(C, load2, em)
 
         actual_path_delay = get_actual_path_delay(actual_edge_delay, all_pairs_actual_path)
 
@@ -45,7 +47,7 @@ def main():
 
         em = copy.deepcopy(actual_edge_delay)
 
-        print_array_float(compare_matrix( get_actual_adjusted_delay(all_pairs_shortest_dist, flow_matrix_in()), actual_path_delay ))
+        print_array_float(compare_matrix( get_actual_adjusted_delay(all_pairs_shortest_dist, F), actual_path_delay ))
 
 
 # run main function :)
