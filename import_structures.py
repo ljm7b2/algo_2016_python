@@ -44,7 +44,7 @@ def build_matrices(params, all_data):
                     E[i][j] = 9999999
                 if C[i][j] == 0:
                     C[i][j] = 9999999
-    return E, F, C
+    return E, F, C, int(start), int(fin)
 
 
 def get_all_files_in_dir(directory):
