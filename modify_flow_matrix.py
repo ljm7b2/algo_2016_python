@@ -62,14 +62,10 @@ def necessary_first(F, L, C, EP):
             if(F[i][j] <= C[i][j] and C[i][j] < 9999999):
                 L[i][j] += F[i][j]
             elif C[i][j] >= 9999999:
-                #L[i][j] = C[i][j]
                 R[i][j] = F[i][j]
             else:
                 L[i][j] = C[i][j]
                 R[i][j] = F[i][j] - C[i][j]
-
-    #print("first L ")
-    #print_array_float(L)
 
     for i in range(n):
         for j in range(n):
@@ -85,14 +81,9 @@ def necessary_first(F, L, C, EP):
                     for k in range(len(path) - 1):
                         if R[i][j] < C[path[k] - 1][path[k + 1] - 1] - L[path[k] - 1][path[k + 1] - 1]:
                             L[path[k] - 1][path[k + 1] - 1] += R[i][j]
-                        #R[i][j] = 0
                         else:
-                            print("here - must find new path says ben")
-
-    #print("2nd R")
-    #print_array_float(R)
+                            pass #print("here - must find new path says ben")
     return L
-
 
 def compare_matrix(matrix_a, matrix_b):
     temp = [[0 for x in range(len(matrix_a))] for y in range(len(matrix_a))]
@@ -102,17 +93,10 @@ def compare_matrix(matrix_a, matrix_b):
                 temp[i][j] = ((matrix_a[i][j] - matrix_b[i][j]) / matrix_a[i][j]) * 100
     return temp
 
-
 def get_actual_adjusted_delay(ma, mb):
     t = [[0 for i in range(len(ma))] for x in range(len(ma))]
 
     for i in range(len(ma)):
         for j in range(len(ma)):
             t[i][j] = ma[i][j] * mb[i][j]
-
     return t
-
-
-
-
-

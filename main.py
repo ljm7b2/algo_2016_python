@@ -10,61 +10,42 @@ from floyd_warshall import f_w2
 from floyd_warshall import get_actual_paths
 from floyd_warshall import get_hop_count
 from floyd_warshall import get_load_matrix
+from modify_flow_matrix import compare_matrix
 from modify_flow_matrix import necessary_first
+from modify_flow_matrix import get_actual_adjusted_delay
+from import_structures import read_file
+from import_structures import get_all_files_in_dir
+import copy
+import time
 
 def main():
 
-    print("Edge Matrix - E")
-    print_array(edge_matrix())
+    for file_name in get_all_files_in_dir("input"):
 
-    print("All pairs shortest path")
-    all_pairs_shortest_dist, shortest_path_tree = f_w2(edge_matrix())
-    print_array(all_pairs_shortest_dist)
+        start_time = time.clock()
 
-    print("Actual paths")
-    all_pairs_actual_path = get_actual_paths(all_pairs_shortest_dist, shortest_path_tree)
-    print_array(all_pairs_actual_path)
+        em, F, C = read_file(file_name)
 
-    print("Hop Count")
-    hop_count = get_hop_count(all_pairs_actual_path)
-    print_array(hop_count)
+        all_pairs_shortest_dist, shortest_path_tree = f_w2(em)
 
-    print("Flow Matrix")
-    print_array(flow_matrix_in())
+        #print_array(all_pairs_shortest_dist)
+        all_pairs_actual_path = get_actual_paths(all_pairs_shortest_dist, shortest_path_tree)
 
-    print("Load Matrix")
-    load = get_load_matrix(all_pairs_actual_path, flow_matrix_in())
-    print_array(load)
+        hop_count = get_hop_count(all_pairs_actual_path)
 
-    load = necessary_first(flow_matrix_in(), load, capacity_matrix_in(), all_pairs_actual_path)
-    print_array(load)
+        load2 = necessary_first(F, [], C, all_pairs_actual_path)
 
-    print("Capacity Matrix")
-    print_array(capacity_matrix_in())
+        actual_edge_delay = get_actual_edge_delay(C, load2, em)
 
-    print("Actual edge delay")
-    actual_edge_delay = get_actual_edge_delay(capacity_matrix_in(), load, edge_matrix())
-    print_array_float(actual_edge_delay)
+        actual_path_delay = get_actual_path_delay(actual_edge_delay, all_pairs_actual_path)
 
-    print("Actual path delay")
-    actual_path_delay = get_actual_path_delay(actual_edge_delay, all_pairs_actual_path)
-    print_array_float(actual_path_delay)
+        #print("actual path delay")
+        #print_array_float(actual_path_delay)
 
-    # --revise it ---
+        em = copy.deepcopy(actual_edge_delay)
 
-    print("Capacity Matrix 2")
-    print_array(capacity_matrix_in2())
-
-    print("Actual Edge Delay 2")
-    actual_edge_delay_2 = get_actual_edge_delay(capacity_matrix_in2(), load, edge_matrix())
-    print_array_float(actual_edge_delay_2)
-
-    print("Actual path delay 2")
-    actual_path_delay_2 = get_actual_path_delay(actual_edge_delay_2, all_pairs_actual_path)
-    print_array_float(actual_path_delay_2)
-
-
-
+        print(file_name.split('\\')[-1], "Time: ", time.clock() - start_time)
+        print_array_float(compare_matrix( get_actual_adjusted_delay(all_pairs_shortest_dist, F), actual_path_delay ))
 
 
 # run main function :)

@@ -21,7 +21,3 @@ def get_actual_path_delay(graph, paths):
                     actual_delay[i][j] += graph[temp[k]-1][temp[k+1]-1]
 
     return actual_delay
-
-
-
-
